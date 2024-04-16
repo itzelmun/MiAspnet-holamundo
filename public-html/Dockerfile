@@ -18,9 +18,6 @@ RUN mkdir -p /var/www/private_content
 COPY . /var/www/net
 #RUN mv /var/www/net/simplesaml /var/www/simplesaml
 
-# Habilita las sesiones
-RUN echo "session.save_path=\"/tmp\"" >> /usr/local/etc/php/php.ini
-
 
 # Instala el controlador de PHP para SQL Server
 RUN cat /etc/os-release \
