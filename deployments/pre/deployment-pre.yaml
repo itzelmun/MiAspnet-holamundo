@@ -40,8 +40,6 @@ spec:
         ports:
         - containerPort: 80
         env:
-        - name: SOURCE
-          value: pre-net
         - name: ENDPOINT
           value: mysql-net-pre
         - name: DATABASE
@@ -53,8 +51,6 @@ spec:
             secretKeyRef:
               name: proyecto-secret
               key: proyecto-password
-        - name: SIMPLE
-          value: simple-net
         volumeMounts:
         - name: public-content
           mountPath: /var/www/net/public_content
