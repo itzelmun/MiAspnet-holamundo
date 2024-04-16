@@ -20,10 +20,8 @@ COPY . /var/www/net
 
 # Habilita mod_rewrite en Apache
 COPY 000-default.conf  /etc/apache2/sites-available/000-default.conf
-RUN a2enmod rewrite && \
-    echo "display_errors = Off" >> /usr/local/etc/php/php.ini && \
-    echo "log_errors = On" >> /usr/local/etc/php/php.ini
-RUN service apache2 restart
+
+#RUN service apache2 restart
 
 # Configura la zona horaria
 RUN ln -snf /usr/share/zoneinfo/America/Chihuahua /etc/localtime && echo America/Chihuahua > /etc/timezone
