@@ -18,17 +18,6 @@ RUN mkdir -p /var/www/private_content
 COPY . /var/www/net
 #RUN mv /var/www/net/simplesaml /var/www/simplesaml
 
-
-# Instala el controlador de PHP para SQL Server
-RUN cat /etc/os-release \
-  && apt-get update \
-  && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-  && curl https://packages.microsoft.com/config/ubuntu/22.04/prod.list \
-      > /etc/apt/sources.list.d/mssql-release.list \
-  && apt-get install -y --no-install-recommends apt-transport-https \
-  && apt-get update \
-  && ACCEPT_EULA=Y apt-get -y --no-install-recommends install unixodbc-dev msodbcsql17
-
 # Instala las extensiones de PHP necesarias
 RUN docker-php-ext-install calendar
 RUN docker-php-ext-install pdo_mysql \
