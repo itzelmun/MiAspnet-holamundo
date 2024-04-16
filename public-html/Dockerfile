@@ -21,10 +21,6 @@ RUN mv /var/www/net/simplesaml /var/www/simplesaml
 # Habilita las sesiones
 RUN echo "session.save_path=\"/tmp\"" >> /usr/local/etc/php/php.ini
 
-# Instala el controlador xdebug
-RUN pecl install xdebug
-RUN docker-php-ext-enable xdebug
-COPY ./config/xdebug/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/
 
 # Instala el controlador de PHP para SQL Server
 RUN cat /etc/os-release \
