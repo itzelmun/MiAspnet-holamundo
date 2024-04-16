@@ -18,12 +18,6 @@ RUN mkdir -p /var/www/private_content
 COPY . /var/www/net
 #RUN mv /var/www/net/simplesaml /var/www/simplesaml
 
-# Instala las extensiones de PHP necesarias
-RUN docker-php-ext-install calendar
-RUN docker-php-ext-install pdo_mysql \
-  && pecl install sqlsrv pdo_sqlsrv \
-  && docker-php-ext-enable sqlsrv pdo_sqlsrv
-
 # Habilita mod_rewrite en Apache
 COPY 000-default.conf  /etc/apache2/sites-available/000-default.conf
 RUN a2enmod rewrite && \
