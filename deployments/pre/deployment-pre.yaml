@@ -3,81 +3,49 @@ kind: Deployment
 metadata:
   name: net
   namespace: net-pre
-spec:
-  revisionHistoryLimit: 3
-  selector:
-   matchLabels:
+  labels:
     app: net
+spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: net
   template:
     metadata:
       labels:
         app: net
     spec:
-      initContainers:
-      - name: init-chown
-        image: busybox
-        imagePullPolicy: Always
-        command:
-        - sh
-        - -c
-        - |
-          chown -R www-data:www-data /mnt/public_content &&
-          chown -R www-data:www-data /mnt/private_content &&
-          chmod -R 770 /mnt/public_content &&
-          chmod -R 770 /mnt/private_content
-        volumeMounts:
-        - name: public-content
-          mountPath: /mnt/public_content
-        - name: private-content
-          mountPath: /mnt/private_content
       imagePullSecrets:
       - name: my-docker-credentials
       containers:
       - name: net
-        image: udeccolima/net:simplesaml-pre
+        image: udeccolima/net:v1pre  
         imagePullPolicy: Always
         ports:
-        - containerPort: 80
+        - containerPort: 8080
         env:
         - name: ENDPOINT
-          value: mysql-net-pre
+          value: mysql-net 
         - name: DATABASE
-          value: proyecto
+          value: proyecto 
         - name: USERD
-          value: user
+          value: user 
         - name: PASSD
           valueFrom:
             secretKeyRef:
-              name: proyecto-secret
-              key: proyecto-password
-        volumeMounts:
-        - name: public-content
-          mountPath: /var/www/net/public_content
-        - name: private-content
-          mountPath: /var/www/private_content
-      volumes:
-      - name: public-content
-        persistentVolumeClaim:
-          claimName: public-content-pvc
-      - name: private-content
-        persistentVolumeClaim:
-          claimName: private-content-pvc
-
+              name: deploy-secret 
+              key: deploy-password 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: net
   namespace: net-pre
-  labels:
-    app: net
 spec:
   selector:
-   app: net
-  type: ClusterIP
+    app: net
   ports:
-   - name: http
-     port: 80
-     protocol: TCP
-     targetPort: 80
+    - protocol: TCP
+      port: 80  
+      targetPort: 8080 
+  type: ClusterIP

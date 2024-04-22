@@ -21,6 +21,11 @@ COPY . /var/www/net
 # Habilita mod_rewrite en Apache
 COPY 000-default.conf  /etc/apache2/sites-available/000-default.conf
 
+# Configura los permisos de las carpetas para www-data
+RUN chown -R www-data:www-data /var/www/net/public_content && \
+    chown -R www-data:www-data /var/www/private_content && \
+    chmod -R 770 /var/www/net/public_content && \
+    chmod -R 770 /var/www/private_content
 #RUN service apache2 restart
 
 # Configura la zona horaria
@@ -32,6 +37,7 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # Expone los puertos utilizados por la aplicación
 EXPOSE 80
 EXPOSE 9003
+
 
 # Establece el directorio de trabajo
 WORKDIR /var/www/html/

@@ -10,11 +10,11 @@ data:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: proyecto-secret
+  name: phpmyadmin-secret
   namespace: net-pre
 type: kubernetes.io/base64
 data:
-  proyecto-password: dTAwOTQ3aHlBU1BkZmtsXzExMU5FVGhzLXBhNDRzNTV3LS0/Nw==
+  phpmyadmin-password: dTAwOTQ3aHlBU1BkZmtsXzExMU5FVGhzLXBhNDRzNTV3LS0/Nw==
 ---
 apiVersion: v1
 kind: Secret
@@ -28,7 +28,7 @@ data:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mysql-net-pre #Name for mysql service must be the same here and in the SVC
+  name: mysql-net #Name for mysql service must be the same here and in the SVC
   namespace: net-pre #NAMESPACE
 spec:
   serviceName: "mysql-net" #Name for mysql service
@@ -42,7 +42,7 @@ spec:
         app: mysql-net  #Name for mysql service
     spec:
       containers:
-        - name: mysql-net-pre  #Name for mysql service
+        - name: mysql-net  #Name for mysql service
           image: mysql:8.1  #Docker Image
           resources:
             requests:
@@ -55,7 +55,7 @@ spec:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: root-secret
+                  name: root-secret 
                   key: root-password
             - name: TZ
               value: "America/Chihuahua"
@@ -72,18 +72,17 @@ spec:
             claimName: net-mysql-pvc # REFERENCE: PVC NAME in storage yaml
         - name: net-mysql-scripts  #Reference NAME = 1
           configMap:
-            name: import-net-scripts
+            name: import-net-scripts  #REFERENCE: Is the name from the script in the configmap
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql-net-pre
-  namespace: net-pre
+  name: mysql-net #Name for mysql service must be the same here and in the mysql deployment
+  namespace: net-pre #NAMESPACE
 spec:
   selector:
-    app: mysql-net
+    app: mysql-net #Name for mysql service
   type: ClusterIP
   ports:
-    - name: mysql-net
+    - name: mysql-net #Name for mysql service
       port: 3306
-      targetPort: 3306

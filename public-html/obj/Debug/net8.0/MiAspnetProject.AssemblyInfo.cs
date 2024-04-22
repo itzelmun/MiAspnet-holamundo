@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MiAspnetProject")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fe20c161242813ae57e40db9542c6427eb0c8ecf")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a7eac7f551f49be1c7be4a2bdd02fa2df849ab1b")]
 [assembly: System.Reflection.AssemblyProductAttribute("MiAspnetProject")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MiAspnetProject")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

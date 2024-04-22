@@ -1,34 +1,34 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: admin-net
-  namespace: net-pre
+  name: admin-net #Only change the word "changeme"
+  namespace: net-pre #NAMESPACE
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: admin-net
+      app: admin-net #Only change the word "changeme"
   template:
     metadata:
       labels:
-        app: admin-net
+        app: admin-net #Only change the word "changeme"
     spec:
       imagePullSecrets:
       - name: my-docker-credentials
       containers:
-        - name: admin-net
-          image: udeccolima/phpmyadmin:net-pre
+        - name: admin-net #Only change the word "changeme"
+          image: udeccolima/phpmyadmin:net #phpmyadmin image
           imagePullPolicy: Always
           ports:
             - containerPort: 80
           env:
             - name: PMA_HOST
-              value: mysql-net-pre
+              value: mysql-net #REFERENCE: MYSQL SERVICE NAME, check on the statefulset yaml, in SVC
             - name: PMA_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: deploy-secret
-                  key: deploy-password
+                  name: phpmyadmin-secret  #doesn't need a change, it's the statefulset secret
+                  key: phpmyadmin-password #doesn't need a change, it's the statefulset secret
           volumeMounts:
             - name: sessions
               mountPath: /sessions
@@ -39,12 +39,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: admin-net
-  namespace: net-pre
+  name: admin-net  #Only change the word "changeme"
+  namespace: net-pre #NAMESPACE
 spec:
   type: ClusterIP
   selector:
-    app: admin-net
+    app: admin-net #Only change the word "changeme"
   ports:
   - protocol: TCP
     port: 80
